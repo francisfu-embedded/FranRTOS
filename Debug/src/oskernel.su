@@ -1,0 +1,17 @@
+oskernel.c:42:20:kernel_fast_fetch_tcb_index	24	static
+oskernel.c:51:12:kernel_idle_thread	4	static
+oskernel.c:63:12:kernel_init_global_ticks_and_current_task	4	static
+oskernel.c:75:12:kernel_systick_init	4	static
+oskernel.c:86:16:kernel_get_psp_val	4	static
+oskernel.c:98:12:kernel_save_psp_value	16	static
+oskernel.c:110:12:kernel_update_next_task	32	static
+oskernel.c:170:12:kernel_update_global_tick	4	static
+oskernel.c:178:12:kernel_unblock_tasks	16	static
+oskernel.c:211:12:kernel_block_low_priority_tasks	16	static
+oskernel.c:234:12:kernel_create_idle_task	8	static
+oskernel.c:242:15:kernel_get_first_psp_val_in_pp	16	static
+oskernel.c:260:20:kernel_scheduler_init	0	static,ignoring_inline_asm
+oskernel.c:273:20:kernel_scheduler_launch	0	static,ignoring_inline_asm
+oskernel.c:312:21:PendSV_Handler	0	static,ignoring_inline_asm
+oskernel.c:334:14:SysTick_Handler	8	static
+oskernel.c:382:21:SVC_Handler	0	static,ignoring_inline_asm

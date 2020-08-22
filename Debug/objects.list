@@ -1,0 +1,8 @@
+"Startup/startup_stm32f446retx.o"
+"applications/main.o"
+"applications/syscalls.o"
+"applications/sysmem.o"
+"src/led.o"
+"src/org_template.o"
+"src/oskernel.o"
+"src/task.o"

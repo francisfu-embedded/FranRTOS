@@ -1,0 +1,9 @@
+1. add semaphore, mutex, mailbox, queue
+2. add priority-based rr scheduling x
+3. use more enums instead of definitions
+4. allow for collaborative scheduling which does not use systick
+5. add funtions:
+task_yield
+task_set_priority
+
+6. set systick interrupt priority to be much more higher than interrupts from micro controllers

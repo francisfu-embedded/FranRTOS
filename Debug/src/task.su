@@ -1,0 +1,5 @@
+task.c:43:13:task_create	32	static
+task.c:91:13:task_delay	24	static
+task.c:109:13:task_block	24	static
+task.c:120:13:task_unblock	24	static
+task.c:127:13:task_set_priority	24	static

@@ -1,0 +1,1791 @@
+
+FranRTOS.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   000001c4  08000000  08000000  00010000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         00000a00  080001c4  080001c4  000101c4  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000040  08000bc4  08000bc4  00010bc4  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .ARM.extab    00000000  08000c04  08000c04  00020004  2**0
+                  CONTENTS
+  4 .ARM          00000000  08000c04  08000c04  00020004  2**0
+                  CONTENTS
+  5 .preinit_array 00000000  08000c04  08000c04  00020004  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000004  08000c04  08000c04  00010c04  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  7 .fini_array   00000004  08000c08  08000c08  00010c08  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  8 .data         00000004  20000000  08000c0c  00020000  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .bss          0000017c  20000004  08000c10  00020004  2**2
+                  ALLOC
+ 10 ._user_heap_stack 00000600  20000180  08000c10  00020180  2**0
+                  ALLOC
+ 11 .ARM.attributes 00000030  00000000  00000000  00020004  2**0
+                  CONTENTS, READONLY
+ 12 .debug_line   0000186f  00000000  00000000  00020034  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_info   0000275e  00000000  00000000  000218a3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .debug_abbrev 0000073a  00000000  00000000  00024001  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 15 .debug_aranges 00000180  00000000  00000000  00024740  2**3
+                  CONTENTS, READONLY, DEBUGGING
+ 16 .debug_str    00008944  00000000  00000000  000248c0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 17 .debug_ranges 00000138  00000000  00000000  0002d208  2**3
+                  CONTENTS, READONLY, DEBUGGING
+ 18 .debug_macro  00002239  00000000  00000000  0002d340  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 19 .comment      0000007b  00000000  00000000  0002f579  2**0
+                  CONTENTS, READONLY
+ 20 .debug_frame  00000450  00000000  00000000  0002f5f4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+080001c4 <__do_global_dtors_aux>:
+ 80001c4:	b510      	push	{r4, lr}
+ 80001c6:	4c05      	ldr	r4, [pc, #20]	; (80001dc <__do_global_dtors_aux+0x18>)
+ 80001c8:	7823      	ldrb	r3, [r4, #0]
+ 80001ca:	b933      	cbnz	r3, 80001da <__do_global_dtors_aux+0x16>
+ 80001cc:	4b04      	ldr	r3, [pc, #16]	; (80001e0 <__do_global_dtors_aux+0x1c>)
+ 80001ce:	b113      	cbz	r3, 80001d6 <__do_global_dtors_aux+0x12>
+ 80001d0:	4804      	ldr	r0, [pc, #16]	; (80001e4 <__do_global_dtors_aux+0x20>)
+ 80001d2:	f3af 8000 	nop.w
+ 80001d6:	2301      	movs	r3, #1
+ 80001d8:	7023      	strb	r3, [r4, #0]
+ 80001da:	bd10      	pop	{r4, pc}
+ 80001dc:	20000004 	.word	0x20000004
+ 80001e0:	00000000 	.word	0x00000000
+ 80001e4:	08000bac 	.word	0x08000bac
+
+080001e8 <frame_dummy>:
+ 80001e8:	b508      	push	{r3, lr}
+ 80001ea:	4b03      	ldr	r3, [pc, #12]	; (80001f8 <frame_dummy+0x10>)
+ 80001ec:	b11b      	cbz	r3, 80001f6 <frame_dummy+0xe>
+ 80001ee:	4903      	ldr	r1, [pc, #12]	; (80001fc <frame_dummy+0x14>)
+ 80001f0:	4803      	ldr	r0, [pc, #12]	; (8000200 <frame_dummy+0x18>)
+ 80001f2:	f3af 8000 	nop.w
+ 80001f6:	bd08      	pop	{r3, pc}
+ 80001f8:	00000000 	.word	0x00000000
+ 80001fc:	20000008 	.word	0x20000008
+ 8000200:	08000bac 	.word	0x08000bac
+
+08000204 <Reset_Handler>:
+
+  .section .text.Reset_Handler
+  .weak Reset_Handler
+  .type Reset_Handler, %function
+Reset_Handler:
+  ldr   r0, =_estack
+ 8000204:	480d      	ldr	r0, [pc, #52]	; (800023c <LoopForever+0x2>)
+  mov   sp, r0          /* set stack pointer */
+ 8000206:	4685      	mov	sp, r0
+
+/* Copy the data segment initializers from flash to SRAM */
+  ldr r0, =_sdata
+ 8000208:	480d      	ldr	r0, [pc, #52]	; (8000240 <LoopForever+0x6>)
+  ldr r1, =_edata
+ 800020a:	490e      	ldr	r1, [pc, #56]	; (8000244 <LoopForever+0xa>)
+  ldr r2, =_sidata
+ 800020c:	4a0e      	ldr	r2, [pc, #56]	; (8000248 <LoopForever+0xe>)
+  movs r3, #0
+ 800020e:	2300      	movs	r3, #0
+  b LoopCopyDataInit
+ 8000210:	e002      	b.n	8000218 <LoopCopyDataInit>
+
+08000212 <CopyDataInit>:
+
+CopyDataInit:
+  ldr r4, [r2, r3]
+ 8000212:	58d4      	ldr	r4, [r2, r3]
+  str r4, [r0, r3]
+ 8000214:	50c4      	str	r4, [r0, r3]
+  adds r3, r3, #4
+ 8000216:	3304      	adds	r3, #4
+
+08000218 <LoopCopyDataInit>:
+
+LoopCopyDataInit:
+  adds r4, r0, r3
+ 8000218:	18c4      	adds	r4, r0, r3
+  cmp r4, r1
+ 800021a:	428c      	cmp	r4, r1
+  bcc CopyDataInit
+ 800021c:	d3f9      	bcc.n	8000212 <CopyDataInit>
+
+/* Zero fill the bss segment. */
+  ldr r2, =_sbss
+ 800021e:	4a0b      	ldr	r2, [pc, #44]	; (800024c <LoopForever+0x12>)
+  ldr r4, =_ebss
+ 8000220:	4c0b      	ldr	r4, [pc, #44]	; (8000250 <LoopForever+0x16>)
+  movs r3, #0
+ 8000222:	2300      	movs	r3, #0
+  b LoopFillZerobss
+ 8000224:	e001      	b.n	800022a <LoopFillZerobss>
+
+08000226 <FillZerobss>:
+
+FillZerobss:
+  str  r3, [r2]
+ 8000226:	6013      	str	r3, [r2, #0]
+  adds r2, r2, #4
+ 8000228:	3204      	adds	r2, #4
+
+0800022a <LoopFillZerobss>:
+
+LoopFillZerobss:
+  cmp r2, r4
+ 800022a:	42a2      	cmp	r2, r4
+  bcc FillZerobss
+ 800022c:	d3fb      	bcc.n	8000226 <FillZerobss>
+
+/* Call the clock system intitialization function.*/
+  bl  SystemInit
+ 800022e:	f3af 8000 	nop.w
+/* Call static constructors */
+  bl __libc_init_array
+ 8000232:	f000 fc97 	bl	8000b64 <__libc_init_array>
+/* Call the application's entry point.*/
+  bl main
+ 8000236:	f000 f80f 	bl	8000258 <main>
+
+0800023a <LoopForever>:
+
+LoopForever:
+    b LoopForever
+ 800023a:	e7fe      	b.n	800023a <LoopForever>
+  ldr   r0, =_estack
+ 800023c:	20020000 	.word	0x20020000
+  ldr r0, =_sdata
+ 8000240:	20000000 	.word	0x20000000
+  ldr r1, =_edata
+ 8000244:	20000004 	.word	0x20000004
+  ldr r2, =_sidata
+ 8000248:	08000c0c 	.word	0x08000c0c
+  ldr r2, =_sbss
+ 800024c:	20000004 	.word	0x20000004
+  ldr r4, =_ebss
+ 8000250:	20000180 	.word	0x20000180
+
+08000254 <ADC_IRQHandler>:
+ * @retval : None
+*/
+  .section .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b Infinite_Loop
+ 8000254:	e7fe      	b.n	8000254 <ADC_IRQHandler>
+	...
+
+08000258 <main>:
+
+task_handle handle_array[4];
+
+
+int main(void)
+{
+ 8000258:	b580      	push	{r7, lr}
+ 800025a:	af00      	add	r7, sp, #0
+	kernel_scheduler_init(SCHEDULER_STACK_START);
+ 800025c:	480f      	ldr	r0, [pc, #60]	; (800029c <main+0x44>)
+ 800025e:	f000 fb25 	bl	80008ac <kernel_scheduler_init>
+	led_init_all();
+ 8000262:	f000 f8a7 	bl	80003b4 <led_init_all>
+
+	task_create(&handle_array[0], &task1, STACK_SIZE_128, TASK_PRIO_1);
+ 8000266:	2301      	movs	r3, #1
+ 8000268:	2280      	movs	r2, #128	; 0x80
+ 800026a:	490d      	ldr	r1, [pc, #52]	; (80002a0 <main+0x48>)
+ 800026c:	480d      	ldr	r0, [pc, #52]	; (80002a4 <main+0x4c>)
+ 800026e:	f000 fb7f 	bl	8000970 <task_create>
+	task_create(&handle_array[1], &task2, STACK_SIZE_128, TASK_PRIO_2);
+ 8000272:	2302      	movs	r3, #2
+ 8000274:	2280      	movs	r2, #128	; 0x80
+ 8000276:	490c      	ldr	r1, [pc, #48]	; (80002a8 <main+0x50>)
+ 8000278:	480c      	ldr	r0, [pc, #48]	; (80002ac <main+0x54>)
+ 800027a:	f000 fb79 	bl	8000970 <task_create>
+	task_create(&handle_array[2], &task3, STACK_SIZE_128, TASK_PRIO_2);
+ 800027e:	2302      	movs	r3, #2
+ 8000280:	2280      	movs	r2, #128	; 0x80
+ 8000282:	490b      	ldr	r1, [pc, #44]	; (80002b0 <main+0x58>)
+ 8000284:	480b      	ldr	r0, [pc, #44]	; (80002b4 <main+0x5c>)
+ 8000286:	f000 fb73 	bl	8000970 <task_create>
+	task_create(&handle_array[3], &task4, STACK_SIZE_128, TASK_PRIO_1);
+ 800028a:	2301      	movs	r3, #1
+ 800028c:	2280      	movs	r2, #128	; 0x80
+ 800028e:	490a      	ldr	r1, [pc, #40]	; (80002b8 <main+0x60>)
+ 8000290:	480a      	ldr	r0, [pc, #40]	; (80002bc <main+0x64>)
+ 8000292:	f000 fb6d 	bl	8000970 <task_create>
+	kernel_scheduler_launch();
+ 8000296:	f000 fb12 	bl	80008be <kernel_scheduler_launch>
+
+	for(;;);
+ 800029a:	e7fe      	b.n	800029a <main+0x42>
+ 800029c:	2001bc00 	.word	0x2001bc00
+ 80002a0:	080002c1 	.word	0x080002c1
+ 80002a4:	20000058 	.word	0x20000058
+ 80002a8:	080002d9 	.word	0x080002d9
+ 80002ac:	20000060 	.word	0x20000060
+ 80002b0:	08000301 	.word	0x08000301
+ 80002b4:	20000068 	.word	0x20000068
+ 80002b8:	08000361 	.word	0x08000361
+ 80002bc:	20000070 	.word	0x20000070
+
+080002c0 <task1>:
+}
+
+void task1 (void)
+{
+ 80002c0:	b480      	push	{r7}
+ 80002c2:	af00      	add	r7, sp, #0
+   for(;;)
+   {
+	   count1++;
+ 80002c4:	4b03      	ldr	r3, [pc, #12]	; (80002d4 <task1+0x14>)
+ 80002c6:	881b      	ldrh	r3, [r3, #0]
+ 80002c8:	3301      	adds	r3, #1
+ 80002ca:	b29a      	uxth	r2, r3
+ 80002cc:	4b01      	ldr	r3, [pc, #4]	; (80002d4 <task1+0x14>)
+ 80002ce:	801a      	strh	r2, [r3, #0]
+ 80002d0:	e7f8      	b.n	80002c4 <task1+0x4>
+ 80002d2:	bf00      	nop
+ 80002d4:	20000020 	.word	0x20000020
+
+080002d8 <task2>:
+   }
+
+}
+void task2 (void)
+{
+ 80002d8:	b580      	push	{r7, lr}
+ 80002da:	af00      	add	r7, sp, #0
+	for(;;)
+	{
+
+		led_on(LED_GREEN);
+ 80002dc:	200c      	movs	r0, #12
+ 80002de:	f000 f8a3 	bl	8000428 <led_on>
+		task_delay(NULL,1000);
+ 80002e2:	f44f 717a 	mov.w	r1, #1000	; 0x3e8
+ 80002e6:	2000      	movs	r0, #0
+ 80002e8:	f000 fbc8 	bl	8000a7c <task_delay>
+		led_off(LED_GREEN);
+ 80002ec:	200c      	movs	r0, #12
+ 80002ee:	f000 f8b3 	bl	8000458 <led_off>
+		task_delay(NULL,1000);
+ 80002f2:	f44f 717a 	mov.w	r1, #1000	; 0x3e8
+ 80002f6:	2000      	movs	r0, #0
+ 80002f8:	f000 fbc0 	bl	8000a7c <task_delay>
+		led_on(LED_GREEN);
+ 80002fc:	e7ee      	b.n	80002dc <task2+0x4>
+	...
+
+08000300 <task3>:
+
+	}
+}
+
+void task3 (void)
+{
+ 8000300:	b580      	push	{r7, lr}
+ 8000302:	af00      	add	r7, sp, #0
+	for(;;)
+	{
+		count3 ++ ;
+ 8000304:	4b13      	ldr	r3, [pc, #76]	; (8000354 <task3+0x54>)
+ 8000306:	881b      	ldrh	r3, [r3, #0]
+ 8000308:	3301      	adds	r3, #1
+ 800030a:	b29a      	uxth	r2, r3
+ 800030c:	4b11      	ldr	r3, [pc, #68]	; (8000354 <task3+0x54>)
+ 800030e:	801a      	strh	r2, [r3, #0]
+		led_on(LED_RED);
+ 8000310:	2005      	movs	r0, #5
+ 8000312:	f000 f889 	bl	8000428 <led_on>
+		task_delay(NULL,500);
+ 8000316:	f44f 71fa 	mov.w	r1, #500	; 0x1f4
+ 800031a:	2000      	movs	r0, #0
+ 800031c:	f000 fbae 	bl	8000a7c <task_delay>
+		led_off(LED_RED);
+ 8000320:	2005      	movs	r0, #5
+ 8000322:	f000 f899 	bl	8000458 <led_off>
+		task_delay(NULL,500);
+ 8000326:	f44f 71fa 	mov.w	r1, #500	; 0x1f4
+ 800032a:	2000      	movs	r0, #0
+ 800032c:	f000 fba6 	bl	8000a7c <task_delay>
+
+		if(count3 == 5)
+ 8000330:	4b08      	ldr	r3, [pc, #32]	; (8000354 <task3+0x54>)
+ 8000332:	881b      	ldrh	r3, [r3, #0]
+ 8000334:	2b05      	cmp	r3, #5
+ 8000336:	d103      	bne.n	8000340 <task3+0x40>
+		{
+			task_set_priority(&handle_array[3], TASK_PRIO_3);
+ 8000338:	2103      	movs	r1, #3
+ 800033a:	4807      	ldr	r0, [pc, #28]	; (8000358 <task3+0x58>)
+ 800033c:	f000 fbe8 	bl	8000b10 <task_set_priority>
+	    }
+
+		if(count3 == 10)
+ 8000340:	4b04      	ldr	r3, [pc, #16]	; (8000354 <task3+0x54>)
+ 8000342:	881b      	ldrh	r3, [r3, #0]
+ 8000344:	2b0a      	cmp	r3, #10
+ 8000346:	d1dd      	bne.n	8000304 <task3+0x4>
+		{
+			task_set_priority (&handle_array[2], TASK_PRIO_2);
+ 8000348:	2102      	movs	r1, #2
+ 800034a:	4804      	ldr	r0, [pc, #16]	; (800035c <task3+0x5c>)
+ 800034c:	f000 fbe0 	bl	8000b10 <task_set_priority>
+		count3 ++ ;
+ 8000350:	e7d8      	b.n	8000304 <task3+0x4>
+ 8000352:	bf00      	nop
+ 8000354:	20000022 	.word	0x20000022
+ 8000358:	20000070 	.word	0x20000070
+ 800035c:	20000068 	.word	0x20000068
+
+08000360 <task4>:
+	}
+
+}
+
+void task4 (void)
+{
+ 8000360:	b580      	push	{r7, lr}
+ 8000362:	af00      	add	r7, sp, #0
+	for(;;)
+	{
+		count4 ++;
+ 8000364:	4b10      	ldr	r3, [pc, #64]	; (80003a8 <task4+0x48>)
+ 8000366:	881b      	ldrh	r3, [r3, #0]
+ 8000368:	3301      	adds	r3, #1
+ 800036a:	b29a      	uxth	r2, r3
+ 800036c:	4b0e      	ldr	r3, [pc, #56]	; (80003a8 <task4+0x48>)
+ 800036e:	801a      	strh	r2, [r3, #0]
+		led_on(LED_BLUE);
+ 8000370:	2006      	movs	r0, #6
+ 8000372:	f000 f859 	bl	8000428 <led_on>
+		task_delay(NULL,250);
+ 8000376:	21fa      	movs	r1, #250	; 0xfa
+ 8000378:	2000      	movs	r0, #0
+ 800037a:	f000 fb7f 	bl	8000a7c <task_delay>
+		led_off(LED_BLUE);
+ 800037e:	2006      	movs	r0, #6
+ 8000380:	f000 f86a 	bl	8000458 <led_off>
+		task_delay(NULL,250);
+ 8000384:	21fa      	movs	r1, #250	; 0xfa
+ 8000386:	2000      	movs	r0, #0
+ 8000388:	f000 fb78 	bl	8000a7c <task_delay>
+		if(count4 == 20)
+ 800038c:	4b06      	ldr	r3, [pc, #24]	; (80003a8 <task4+0x48>)
+ 800038e:	881b      	ldrh	r3, [r3, #0]
+ 8000390:	2b14      	cmp	r3, #20
+ 8000392:	d1e7      	bne.n	8000364 <task4+0x4>
+		{
+			task_set_priority(&handle_array[2], TASK_PRIO_3);
+ 8000394:	2103      	movs	r1, #3
+ 8000396:	4805      	ldr	r0, [pc, #20]	; (80003ac <task4+0x4c>)
+ 8000398:	f000 fbba 	bl	8000b10 <task_set_priority>
+			task_set_priority(&handle_array[1], TASK_PRIO_3);
+ 800039c:	2103      	movs	r1, #3
+ 800039e:	4804      	ldr	r0, [pc, #16]	; (80003b0 <task4+0x50>)
+ 80003a0:	f000 fbb6 	bl	8000b10 <task_set_priority>
+		count4 ++;
+ 80003a4:	e7de      	b.n	8000364 <task4+0x4>
+ 80003a6:	bf00      	nop
+ 80003a8:	20000024 	.word	0x20000024
+ 80003ac:	20000068 	.word	0x20000068
+ 80003b0:	20000060 	.word	0x20000060
+
+080003b4 <led_init_all>:
+{
+  for(uint32_t i = 0 ; i < count ; i++);
+}
+
+void led_init_all(void)
+{
+ 80003b4:	b580      	push	{r7, lr}
+ 80003b6:	b082      	sub	sp, #8
+ 80003b8:	af00      	add	r7, sp, #0
+
+	uint32_t *pRccAhb1enr = (uint32_t*)0x40023830;
+ 80003ba:	4b19      	ldr	r3, [pc, #100]	; (8000420 <led_init_all+0x6c>)
+ 80003bc:	607b      	str	r3, [r7, #4]
+	uint32_t *pGpiodModeReg = (uint32_t*)0x40020800;
+ 80003be:	4b19      	ldr	r3, [pc, #100]	; (8000424 <led_init_all+0x70>)
+ 80003c0:	603b      	str	r3, [r7, #0]
+
+
+	*pRccAhb1enr |= ( 1 << 2);
+ 80003c2:	687b      	ldr	r3, [r7, #4]
+ 80003c4:	681b      	ldr	r3, [r3, #0]
+ 80003c6:	f043 0204 	orr.w	r2, r3, #4
+ 80003ca:	687b      	ldr	r3, [r7, #4]
+ 80003cc:	601a      	str	r2, [r3, #0]
+	//configure LED_GREEN
+	*pGpiodModeReg |= ( 1 << (2 * LED_GREEN));
+ 80003ce:	683b      	ldr	r3, [r7, #0]
+ 80003d0:	681b      	ldr	r3, [r3, #0]
+ 80003d2:	f043 7280 	orr.w	r2, r3, #16777216	; 0x1000000
+ 80003d6:	683b      	ldr	r3, [r7, #0]
+ 80003d8:	601a      	str	r2, [r3, #0]
+	*pGpiodModeReg |= ( 1 << (2 * LED_ORANGE));
+ 80003da:	683b      	ldr	r3, [r7, #0]
+ 80003dc:	681b      	ldr	r3, [r3, #0]
+ 80003de:	f043 6280 	orr.w	r2, r3, #67108864	; 0x4000000
+ 80003e2:	683b      	ldr	r3, [r7, #0]
+ 80003e4:	601a      	str	r2, [r3, #0]
+	*pGpiodModeReg |= ( 1 << (2 * LED_RED));
+ 80003e6:	683b      	ldr	r3, [r7, #0]
+ 80003e8:	681b      	ldr	r3, [r3, #0]
+ 80003ea:	f443 6280 	orr.w	r2, r3, #1024	; 0x400
+ 80003ee:	683b      	ldr	r3, [r7, #0]
+ 80003f0:	601a      	str	r2, [r3, #0]
+	*pGpiodModeReg |= ( 1 << (2 * LED_BLUE));
+ 80003f2:	683b      	ldr	r3, [r7, #0]
+ 80003f4:	681b      	ldr	r3, [r3, #0]
+ 80003f6:	f443 5280 	orr.w	r2, r3, #4096	; 0x1000
+ 80003fa:	683b      	ldr	r3, [r7, #0]
+ 80003fc:	601a      	str	r2, [r3, #0]
+	*pGpioOpTypeReg |= ( 1 << (2 * LED_ORANGE));
+	*pGpioOpTypeReg |= ( 1 << (2 * LED_RED));
+	*pGpioOpTypeReg |= ( 1 << (2 * LED_BLUE));
+#endif
+
+    led_off(LED_GREEN);
+ 80003fe:	200c      	movs	r0, #12
+ 8000400:	f000 f82a 	bl	8000458 <led_off>
+    led_off(LED_ORANGE);
+ 8000404:	200d      	movs	r0, #13
+ 8000406:	f000 f827 	bl	8000458 <led_off>
+    led_off(LED_RED);
+ 800040a:	2005      	movs	r0, #5
+ 800040c:	f000 f824 	bl	8000458 <led_off>
+    led_off(LED_BLUE);
+ 8000410:	2006      	movs	r0, #6
+ 8000412:	f000 f821 	bl	8000458 <led_off>
+
+
+
+}
+ 8000416:	bf00      	nop
+ 8000418:	3708      	adds	r7, #8
+ 800041a:	46bd      	mov	sp, r7
+ 800041c:	bd80      	pop	{r7, pc}
+ 800041e:	bf00      	nop
+ 8000420:	40023830 	.word	0x40023830
+ 8000424:	40020800 	.word	0x40020800
+
+08000428 <led_on>:
+
+void led_on(uint8_t led_no)
+{
+ 8000428:	b480      	push	{r7}
+ 800042a:	b085      	sub	sp, #20
+ 800042c:	af00      	add	r7, sp, #0
+ 800042e:	4603      	mov	r3, r0
+ 8000430:	71fb      	strb	r3, [r7, #7]
+  uint32_t *pGpiodDataReg = (uint32_t*)0x40020814;
+ 8000432:	4b08      	ldr	r3, [pc, #32]	; (8000454 <led_on+0x2c>)
+ 8000434:	60fb      	str	r3, [r7, #12]
+  *pGpiodDataReg |= ( 1 << led_no);
+ 8000436:	68fb      	ldr	r3, [r7, #12]
+ 8000438:	681b      	ldr	r3, [r3, #0]
+ 800043a:	79fa      	ldrb	r2, [r7, #7]
+ 800043c:	2101      	movs	r1, #1
+ 800043e:	fa01 f202 	lsl.w	r2, r1, r2
+ 8000442:	431a      	orrs	r2, r3
+ 8000444:	68fb      	ldr	r3, [r7, #12]
+ 8000446:	601a      	str	r2, [r3, #0]
+
+}
+ 8000448:	bf00      	nop
+ 800044a:	3714      	adds	r7, #20
+ 800044c:	46bd      	mov	sp, r7
+ 800044e:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000452:	4770      	bx	lr
+ 8000454:	40020814 	.word	0x40020814
+
+08000458 <led_off>:
+
+void led_off(uint8_t led_no)
+{
+ 8000458:	b480      	push	{r7}
+ 800045a:	b085      	sub	sp, #20
+ 800045c:	af00      	add	r7, sp, #0
+ 800045e:	4603      	mov	r3, r0
+ 8000460:	71fb      	strb	r3, [r7, #7]
+	  uint32_t *pGpiodDataReg = (uint32_t*)0x40020814;
+ 8000462:	4b09      	ldr	r3, [pc, #36]	; (8000488 <led_off+0x30>)
+ 8000464:	60fb      	str	r3, [r7, #12]
+	  *pGpiodDataReg &= ~( 1 << led_no);
+ 8000466:	68fb      	ldr	r3, [r7, #12]
+ 8000468:	681b      	ldr	r3, [r3, #0]
+ 800046a:	79fa      	ldrb	r2, [r7, #7]
+ 800046c:	2101      	movs	r1, #1
+ 800046e:	fa01 f202 	lsl.w	r2, r1, r2
+ 8000472:	43d2      	mvns	r2, r2
+ 8000474:	401a      	ands	r2, r3
+ 8000476:	68fb      	ldr	r3, [r7, #12]
+ 8000478:	601a      	str	r2, [r3, #0]
+
+}
+ 800047a:	bf00      	nop
+ 800047c:	3714      	adds	r7, #20
+ 800047e:	46bd      	mov	sp, r7
+ 8000480:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000484:	4770      	bx	lr
+ 8000486:	bf00      	nop
+ 8000488:	40020814 	.word	0x40020814
+
+0800048c <kernel_fast_fetch_tcb_index>:
+
+//
+// Quickly get the tcb index using the de Bruijn look-up table above with a 16-bit bit_holder
+//
+local const uint16 kernel_fast_fetch_tcb_index(uint16 bit_holder)
+{
+ 800048c:	b480      	push	{r7}
+ 800048e:	b085      	sub	sp, #20
+ 8000490:	af00      	add	r7, sp, #0
+ 8000492:	4603      	mov	r3, r0
+ 8000494:	80fb      	strh	r3, [r7, #6]
+	uint16 index = de_bruijn_lookup[(uint16)((bit_holder * 0x77CB531ul) >> 27)];
+ 8000496:	88fb      	ldrh	r3, [r7, #6]
+ 8000498:	4a08      	ldr	r2, [pc, #32]	; (80004bc <kernel_fast_fetch_tcb_index+0x30>)
+ 800049a:	fb02 f303 	mul.w	r3, r2, r3
+ 800049e:	0edb      	lsrs	r3, r3, #27
+ 80004a0:	b29b      	uxth	r3, r3
+ 80004a2:	461a      	mov	r2, r3
+ 80004a4:	4b06      	ldr	r3, [pc, #24]	; (80004c0 <kernel_fast_fetch_tcb_index+0x34>)
+ 80004a6:	f833 3012 	ldrh.w	r3, [r3, r2, lsl #1]
+ 80004aa:	81fb      	strh	r3, [r7, #14]
+	return index;
+ 80004ac:	89fb      	ldrh	r3, [r7, #14]
+}
+ 80004ae:	4618      	mov	r0, r3
+ 80004b0:	3714      	adds	r7, #20
+ 80004b2:	46bd      	mov	sp, r7
+ 80004b4:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80004b8:	4770      	bx	lr
+ 80004ba:	bf00      	nop
+ 80004bc:	077cb531 	.word	0x077cb531
+ 80004c0:	08000bc4 	.word	0x08000bc4
+
+080004c4 <kernel_idle_thread>:
+
+//
+// Idle task to be run when all tasks are in blocked state. Suitable for the microcontroller to enter low-power mode
+//
+local void kernel_idle_thread(void)
+{
+ 80004c4:	b480      	push	{r7}
+ 80004c6:	af00      	add	r7, sp, #0
+	for(;;)
+ 80004c8:	e7fe      	b.n	80004c8 <kernel_idle_thread+0x4>
+	...
+
+080004cc <kernel_init_global_ticks_and_current_task>:
+
+//
+// Called as part of kernel_scheduler_init to initialize all required package variables
+//
+local void kernel_init_global_ticks_and_current_task(void)
+{
+ 80004cc:	b480      	push	{r7}
+ 80004ce:	af00      	add	r7, sp, #0
+	global_ticks = 0;
+ 80004d0:	4b09      	ldr	r3, [pc, #36]	; (80004f8 <kernel_init_global_ticks_and_current_task+0x2c>)
+ 80004d2:	2200      	movs	r2, #0
+ 80004d4:	601a      	str	r2, [r3, #0]
+	current_task = 0;
+ 80004d6:	4b09      	ldr	r3, [pc, #36]	; (80004fc <kernel_init_global_ticks_and_current_task+0x30>)
+ 80004d8:	2200      	movs	r2, #0
+ 80004da:	601a      	str	r2, [r3, #0]
+	block_status = 0;
+ 80004dc:	4b08      	ldr	r3, [pc, #32]	; (8000500 <kernel_init_global_ticks_and_current_task+0x34>)
+ 80004de:	2200      	movs	r2, #0
+ 80004e0:	801a      	strh	r2, [r3, #0]
+	highest_prio = 0;
+ 80004e2:	4b08      	ldr	r3, [pc, #32]	; (8000504 <kernel_init_global_ticks_and_current_task+0x38>)
+ 80004e4:	2200      	movs	r2, #0
+ 80004e6:	701a      	strb	r2, [r3, #0]
+	hi_prio_set = true;
+ 80004e8:	4b07      	ldr	r3, [pc, #28]	; (8000508 <kernel_init_global_ticks_and_current_task+0x3c>)
+ 80004ea:	2201      	movs	r2, #1
+ 80004ec:	701a      	strb	r2, [r3, #0]
+}
+ 80004ee:	bf00      	nop
+ 80004f0:	46bd      	mov	sp, r7
+ 80004f2:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80004f6:	4770      	bx	lr
+ 80004f8:	20000030 	.word	0x20000030
+ 80004fc:	20000178 	.word	0x20000178
+ 8000500:	2000017c 	.word	0x2000017c
+ 8000504:	2000002c 	.word	0x2000002c
+ 8000508:	2000016c 	.word	0x2000016c
+
+0800050c <kernel_systick_init>:
+
+//
+// Initialize the Cortex-M systick timer with user/specified clocking info in fran_rtos.h
+//
+local void kernel_systick_init(void)
+{
+ 800050c:	b480      	push	{r7}
+ 800050e:	af00      	add	r7, sp, #0
+	systick_regs->systick_reg_rvr &=~ (0x00ffffff);
+ 8000510:	4b0c      	ldr	r3, [pc, #48]	; (8000544 <kernel_systick_init+0x38>)
+ 8000512:	685b      	ldr	r3, [r3, #4]
+ 8000514:	4a0b      	ldr	r2, [pc, #44]	; (8000544 <kernel_systick_init+0x38>)
+ 8000516:	f003 437f 	and.w	r3, r3, #4278190080	; 0xff000000
+ 800051a:	6053      	str	r3, [r2, #4]
+
+	systick_regs->systick_reg_rvr |= SYSTICK_COUNT_VAL;
+ 800051c:	4b09      	ldr	r3, [pc, #36]	; (8000544 <kernel_systick_init+0x38>)
+ 800051e:	685b      	ldr	r3, [r3, #4]
+ 8000520:	4a08      	ldr	r2, [pc, #32]	; (8000544 <kernel_systick_init+0x38>)
+ 8000522:	f443 5379 	orr.w	r3, r3, #15936	; 0x3e40
+ 8000526:	f043 033f 	orr.w	r3, r3, #63	; 0x3f
+ 800052a:	6053      	str	r3, [r2, #4]
+	systick_regs->systick_reg_csr |= 7;
+ 800052c:	4b05      	ldr	r3, [pc, #20]	; (8000544 <kernel_systick_init+0x38>)
+ 800052e:	681b      	ldr	r3, [r3, #0]
+ 8000530:	4a04      	ldr	r2, [pc, #16]	; (8000544 <kernel_systick_init+0x38>)
+ 8000532:	f043 0307 	orr.w	r3, r3, #7
+ 8000536:	6013      	str	r3, [r2, #0]
+}
+ 8000538:	bf00      	nop
+ 800053a:	46bd      	mov	sp, r7
+ 800053c:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000540:	4770      	bx	lr
+ 8000542:	bf00      	nop
+ 8000544:	e000e010 	.word	0xe000e010
+
+08000548 <kernel_get_psp_val>:
+
+//
+// Get the next process stack pointer value when performing context-switch
+//
+local uint32 * kernel_get_psp_val (void)
+{
+ 8000548:	b480      	push	{r7}
+ 800054a:	af00      	add	r7, sp, #0
+	//treat idle task and user task psp value separately
+	if(idle_running == false)
+ 800054c:	4b0e      	ldr	r3, [pc, #56]	; (8000588 <kernel_get_psp_val+0x40>)
+ 800054e:	781b      	ldrb	r3, [r3, #0]
+ 8000550:	2b00      	cmp	r3, #0
+ 8000552:	d109      	bne.n	8000568 <kernel_get_psp_val+0x20>
+		return user_tcbs[current_task].task_psp_val;
+ 8000554:	4b0d      	ldr	r3, [pc, #52]	; (800058c <kernel_get_psp_val+0x44>)
+ 8000556:	681a      	ldr	r2, [r3, #0]
+ 8000558:	490d      	ldr	r1, [pc, #52]	; (8000590 <kernel_get_psp_val+0x48>)
+ 800055a:	4613      	mov	r3, r2
+ 800055c:	005b      	lsls	r3, r3, #1
+ 800055e:	4413      	add	r3, r2
+ 8000560:	009b      	lsls	r3, r3, #2
+ 8000562:	440b      	add	r3, r1
+ 8000564:	681b      	ldr	r3, [r3, #0]
+ 8000566:	e009      	b.n	800057c <kernel_get_psp_val+0x34>
+	else
+		return user_tcbs[num_tasks - 1].task_psp_val;
+ 8000568:	4b0a      	ldr	r3, [pc, #40]	; (8000594 <kernel_get_psp_val+0x4c>)
+ 800056a:	881b      	ldrh	r3, [r3, #0]
+ 800056c:	1e5a      	subs	r2, r3, #1
+ 800056e:	4908      	ldr	r1, [pc, #32]	; (8000590 <kernel_get_psp_val+0x48>)
+ 8000570:	4613      	mov	r3, r2
+ 8000572:	005b      	lsls	r3, r3, #1
+ 8000574:	4413      	add	r3, r2
+ 8000576:	009b      	lsls	r3, r3, #2
+ 8000578:	440b      	add	r3, r1
+ 800057a:	681b      	ldr	r3, [r3, #0]
+}
+ 800057c:	4618      	mov	r0, r3
+ 800057e:	46bd      	mov	sp, r7
+ 8000580:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000584:	4770      	bx	lr
+ 8000586:	bf00      	nop
+ 8000588:	20000026 	.word	0x20000026
+ 800058c:	20000178 	.word	0x20000178
+ 8000590:	2000007c 	.word	0x2000007c
+ 8000594:	2000016a 	.word	0x2000016a
+
+08000598 <kernel_save_psp_value>:
+
+//
+// Save the current process stack pointer value when performing context-switch
+//
+local void kernel_save_psp_value ( uint32 * stack_addr)
+{
+ 8000598:	b480      	push	{r7}
+ 800059a:	b083      	sub	sp, #12
+ 800059c:	af00      	add	r7, sp, #0
+ 800059e:	6078      	str	r0, [r7, #4]
+	//treat idle task and user task psp value separately
+	if(idle_running == false)
+ 80005a0:	4b0f      	ldr	r3, [pc, #60]	; (80005e0 <kernel_save_psp_value+0x48>)
+ 80005a2:	781b      	ldrb	r3, [r3, #0]
+ 80005a4:	2b00      	cmp	r3, #0
+ 80005a6:	d10a      	bne.n	80005be <kernel_save_psp_value+0x26>
+		user_tcbs[current_task].task_psp_val = stack_addr;
+ 80005a8:	4b0e      	ldr	r3, [pc, #56]	; (80005e4 <kernel_save_psp_value+0x4c>)
+ 80005aa:	681a      	ldr	r2, [r3, #0]
+ 80005ac:	490e      	ldr	r1, [pc, #56]	; (80005e8 <kernel_save_psp_value+0x50>)
+ 80005ae:	4613      	mov	r3, r2
+ 80005b0:	005b      	lsls	r3, r3, #1
+ 80005b2:	4413      	add	r3, r2
+ 80005b4:	009b      	lsls	r3, r3, #2
+ 80005b6:	440b      	add	r3, r1
+ 80005b8:	687a      	ldr	r2, [r7, #4]
+ 80005ba:	601a      	str	r2, [r3, #0]
+	else
+		user_tcbs[num_tasks - 1].task_psp_val = stack_addr;
+}
+ 80005bc:	e00a      	b.n	80005d4 <kernel_save_psp_value+0x3c>
+		user_tcbs[num_tasks - 1].task_psp_val = stack_addr;
+ 80005be:	4b0b      	ldr	r3, [pc, #44]	; (80005ec <kernel_save_psp_value+0x54>)
+ 80005c0:	881b      	ldrh	r3, [r3, #0]
+ 80005c2:	1e5a      	subs	r2, r3, #1
+ 80005c4:	4908      	ldr	r1, [pc, #32]	; (80005e8 <kernel_save_psp_value+0x50>)
+ 80005c6:	4613      	mov	r3, r2
+ 80005c8:	005b      	lsls	r3, r3, #1
+ 80005ca:	4413      	add	r3, r2
+ 80005cc:	009b      	lsls	r3, r3, #2
+ 80005ce:	440b      	add	r3, r1
+ 80005d0:	687a      	ldr	r2, [r7, #4]
+ 80005d2:	601a      	str	r2, [r3, #0]
+}
+ 80005d4:	bf00      	nop
+ 80005d6:	370c      	adds	r7, #12
+ 80005d8:	46bd      	mov	sp, r7
+ 80005da:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80005de:	4770      	bx	lr
+ 80005e0:	20000026 	.word	0x20000026
+ 80005e4:	20000178 	.word	0x20000178
+ 80005e8:	2000007c 	.word	0x2000007c
+ 80005ec:	2000016a 	.word	0x2000016a
+
+080005f0 <kernel_update_next_task>:
+
+//
+// Determines the next task to run based on the type of Rtos scheduler specified by the user
+//
+local void kernel_update_next_task ( uint32 * stack_addr)
+{
+ 80005f0:	b580      	push	{r7, lr}
+ 80005f2:	b086      	sub	sp, #24
+ 80005f4:	af00      	add	r7, sp, #0
+ 80005f6:	6078      	str	r0, [r7, #4]
+	//----------------------------------------------------------------
+#if (SCHEDULER_TYPE == SCHEDULER_TYPE_RR) || (SCHEDULER_TYPE == SCHEDULER_TYPE_PP)
+    uint16 temp;
+    uint16 bit_holder;
+	uint16 to_run_status;
+	uint16 status_mask = (1u << (num_tasks - 1)) - 1;
+ 80005f8:	4b25      	ldr	r3, [pc, #148]	; (8000690 <kernel_update_next_task+0xa0>)
+ 80005fa:	881b      	ldrh	r3, [r3, #0]
+ 80005fc:	3b01      	subs	r3, #1
+ 80005fe:	2201      	movs	r2, #1
+ 8000600:	fa02 f303 	lsl.w	r3, r2, r3
+ 8000604:	b29b      	uxth	r3, r3
+ 8000606:	3b01      	subs	r3, #1
+ 8000608:	82bb      	strh	r3, [r7, #20]
+	uint16 ready_status = (~block_status) & status_mask;
+ 800060a:	4b22      	ldr	r3, [pc, #136]	; (8000694 <kernel_update_next_task+0xa4>)
+ 800060c:	881b      	ldrh	r3, [r3, #0]
+ 800060e:	b21b      	sxth	r3, r3
+ 8000610:	43db      	mvns	r3, r3
+ 8000612:	b21a      	sxth	r2, r3
+ 8000614:	f9b7 3014 	ldrsh.w	r3, [r7, #20]
+ 8000618:	4013      	ands	r3, r2
+ 800061a:	b21b      	sxth	r3, r3
+ 800061c:	827b      	strh	r3, [r7, #18]
+	uint16 runned_status_mask = (1u << (current_task+1)) - 1;
+ 800061e:	4b1e      	ldr	r3, [pc, #120]	; (8000698 <kernel_update_next_task+0xa8>)
+ 8000620:	681b      	ldr	r3, [r3, #0]
+ 8000622:	3301      	adds	r3, #1
+ 8000624:	2201      	movs	r2, #1
+ 8000626:	fa02 f303 	lsl.w	r3, r2, r3
+ 800062a:	b29b      	uxth	r3, r3
+ 800062c:	3b01      	subs	r3, #1
+ 800062e:	823b      	strh	r3, [r7, #16]
+
+
+    //if all user tasks are blocked, get the idle task running
+	if(ready_status == 0)
+ 8000630:	8a7b      	ldrh	r3, [r7, #18]
+ 8000632:	2b00      	cmp	r3, #0
+ 8000634:	d103      	bne.n	800063e <kernel_update_next_task+0x4e>
+	{
+        idle_running = true;
+ 8000636:	4b19      	ldr	r3, [pc, #100]	; (800069c <kernel_update_next_task+0xac>)
+ 8000638:	2201      	movs	r2, #1
+ 800063a:	701a      	strb	r2, [r3, #0]
+		return;
+ 800063c:	e025      	b.n	800068a <kernel_update_next_task+0x9a>
+	}
+	else
+	{
+		idle_running = false;
+ 800063e:	4b17      	ldr	r3, [pc, #92]	; (800069c <kernel_update_next_task+0xac>)
+ 8000640:	2200      	movs	r2, #0
+ 8000642:	701a      	strb	r2, [r3, #0]
+	}
+
+
+	//if not, find the ready-to-run tasks by clearing the runned status bits
+	to_run_status = ready_status & (~runned_status_mask);
+ 8000644:	f9b7 3010 	ldrsh.w	r3, [r7, #16]
+ 8000648:	43db      	mvns	r3, r3
+ 800064a:	b21a      	sxth	r2, r3
+ 800064c:	f9b7 3012 	ldrsh.w	r3, [r7, #18]
+ 8000650:	4013      	ands	r3, r2
+ 8000652:	b21b      	sxth	r3, r3
+ 8000654:	82fb      	strh	r3, [r7, #22]
+
+	//set current_task to 0 and fast exit if it is the last running task that has been taken care of
+	if(to_run_status == 0)
+ 8000656:	8afb      	ldrh	r3, [r7, #22]
+ 8000658:	2b00      	cmp	r3, #0
+ 800065a:	d101      	bne.n	8000660 <kernel_update_next_task+0x70>
+	{
+		to_run_status = ready_status;
+ 800065c:	8a7b      	ldrh	r3, [r7, #18]
+ 800065e:	82fb      	strh	r3, [r7, #22]
+	}
+
+	//make the first set bit in to_run_status cleared
+	temp = to_run_status & (to_run_status - 1);
+ 8000660:	8afb      	ldrh	r3, [r7, #22]
+ 8000662:	3b01      	subs	r3, #1
+ 8000664:	b29b      	uxth	r3, r3
+ 8000666:	b21a      	sxth	r2, r3
+ 8000668:	f9b7 3016 	ldrsh.w	r3, [r7, #22]
+ 800066c:	4013      	ands	r3, r2
+ 800066e:	b21b      	sxth	r3, r3
+ 8000670:	81fb      	strh	r3, [r7, #14]
+
+	//recover the "cleared" bit in a 16-bit bit holder
+	bit_holder = temp ^ to_run_status;
+ 8000672:	89fa      	ldrh	r2, [r7, #14]
+ 8000674:	8afb      	ldrh	r3, [r7, #22]
+ 8000676:	4053      	eors	r3, r2
+ 8000678:	81bb      	strh	r3, [r7, #12]
+
+	//fetch the corresponding current task based on the bit_holder variable
+	current_task = kernel_fast_fetch_tcb_index(bit_holder);
+ 800067a:	89bb      	ldrh	r3, [r7, #12]
+ 800067c:	4618      	mov	r0, r3
+ 800067e:	f7ff ff05 	bl	800048c <kernel_fast_fetch_tcb_index>
+ 8000682:	4603      	mov	r3, r0
+ 8000684:	461a      	mov	r2, r3
+ 8000686:	4b04      	ldr	r3, [pc, #16]	; (8000698 <kernel_update_next_task+0xa8>)
+ 8000688:	601a      	str	r2, [r3, #0]
+
+#if (SCHEDULER_TYPE == SCHEDULER_TYPE_SC)
+	current_task = tcb_index_sequence_table[periodic_task_index];
+#endif
+
+}
+ 800068a:	3718      	adds	r7, #24
+ 800068c:	46bd      	mov	sp, r7
+ 800068e:	bd80      	pop	{r7, pc}
+ 8000690:	2000016a 	.word	0x2000016a
+ 8000694:	2000017c 	.word	0x2000017c
+ 8000698:	20000178 	.word	0x20000178
+ 800069c:	20000026 	.word	0x20000026
+
+080006a0 <kernel_update_global_tick>:
+//
+// Called by the systick handler to update the global tick count
+//
+
+local void kernel_update_global_tick (void)
+{
+ 80006a0:	b480      	push	{r7}
+ 80006a2:	af00      	add	r7, sp, #0
+	global_ticks ++;
+ 80006a4:	4b04      	ldr	r3, [pc, #16]	; (80006b8 <kernel_update_global_tick+0x18>)
+ 80006a6:	681b      	ldr	r3, [r3, #0]
+ 80006a8:	3301      	adds	r3, #1
+ 80006aa:	4a03      	ldr	r2, [pc, #12]	; (80006b8 <kernel_update_global_tick+0x18>)
+ 80006ac:	6013      	str	r3, [r2, #0]
+}
+ 80006ae:	bf00      	nop
+ 80006b0:	46bd      	mov	sp, r7
+ 80006b2:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80006b6:	4770      	bx	lr
+ 80006b8:	20000030 	.word	0x20000030
+
+080006bc <kernel_unblock_tasks>:
+
+//
+// Update blocked/unblocked status of the task control blocks by checking if the blocking tick count has passed
+//
+local void kernel_unblock_tasks(void)
+{
+ 80006bc:	b580      	push	{r7, lr}
+ 80006be:	b082      	sub	sp, #8
+ 80006c0:	af00      	add	r7, sp, #0
+	uint16 temp;
+	uint16 bit_holder;
+	uint16 block_index;
+	uint16 status_copy = block_status;
+ 80006c2:	4b29      	ldr	r3, [pc, #164]	; (8000768 <kernel_unblock_tasks+0xac>)
+ 80006c4:	881b      	ldrh	r3, [r3, #0]
+ 80006c6:	80fb      	strh	r3, [r7, #6]
+
+	if(status_copy == 0)
+ 80006c8:	88fb      	ldrh	r3, [r7, #6]
+ 80006ca:	2b00      	cmp	r3, #0
+ 80006cc:	d047      	beq.n	800075e <kernel_unblock_tasks+0xa2>
+		return;
+
+	while (status_copy != 0)
+ 80006ce:	e042      	b.n	8000756 <kernel_unblock_tasks+0x9a>
+	{
+		//make the first set bit in status_copy cleared
+		temp = status_copy & (status_copy - 1);
+ 80006d0:	88fb      	ldrh	r3, [r7, #6]
+ 80006d2:	3b01      	subs	r3, #1
+ 80006d4:	b29b      	uxth	r3, r3
+ 80006d6:	b21a      	sxth	r2, r3
+ 80006d8:	f9b7 3006 	ldrsh.w	r3, [r7, #6]
+ 80006dc:	4013      	ands	r3, r2
+ 80006de:	b21b      	sxth	r3, r3
+ 80006e0:	80bb      	strh	r3, [r7, #4]
+
+		//recover the "cleared" bit in a 16-bit bit holder
+		bit_holder = temp ^ status_copy;
+ 80006e2:	88ba      	ldrh	r2, [r7, #4]
+ 80006e4:	88fb      	ldrh	r3, [r7, #6]
+ 80006e6:	4053      	eors	r3, r2
+ 80006e8:	807b      	strh	r3, [r7, #2]
+
+		//fast fetch the bit index, namely the blocked tcb index
+		block_index = kernel_fast_fetch_tcb_index(bit_holder);
+ 80006ea:	887b      	ldrh	r3, [r7, #2]
+ 80006ec:	4618      	mov	r0, r3
+ 80006ee:	f7ff fecd 	bl	800048c <kernel_fast_fetch_tcb_index>
+ 80006f2:	4603      	mov	r3, r0
+ 80006f4:	803b      	strh	r3, [r7, #0]
+
+		//unblock a task if it is not in ready state and the block count is equal to global ticks
+		if((user_tcbs[block_index].task_state == TASK_BLOCKED_STATE) &&
+ 80006f6:	883a      	ldrh	r2, [r7, #0]
+ 80006f8:	491c      	ldr	r1, [pc, #112]	; (800076c <kernel_unblock_tasks+0xb0>)
+ 80006fa:	4613      	mov	r3, r2
+ 80006fc:	005b      	lsls	r3, r3, #1
+ 80006fe:	4413      	add	r3, r2
+ 8000700:	009b      	lsls	r3, r3, #2
+ 8000702:	440b      	add	r3, r1
+ 8000704:	3308      	adds	r3, #8
+ 8000706:	781b      	ldrb	r3, [r3, #0]
+ 8000708:	2b01      	cmp	r3, #1
+ 800070a:	d122      	bne.n	8000752 <kernel_unblock_tasks+0x96>
+				(user_tcbs[block_index].task_block_count == global_ticks))
+ 800070c:	883a      	ldrh	r2, [r7, #0]
+ 800070e:	4917      	ldr	r1, [pc, #92]	; (800076c <kernel_unblock_tasks+0xb0>)
+ 8000710:	4613      	mov	r3, r2
+ 8000712:	005b      	lsls	r3, r3, #1
+ 8000714:	4413      	add	r3, r2
+ 8000716:	009b      	lsls	r3, r3, #2
+ 8000718:	440b      	add	r3, r1
+ 800071a:	3304      	adds	r3, #4
+ 800071c:	681a      	ldr	r2, [r3, #0]
+ 800071e:	4b14      	ldr	r3, [pc, #80]	; (8000770 <kernel_unblock_tasks+0xb4>)
+ 8000720:	681b      	ldr	r3, [r3, #0]
+		if((user_tcbs[block_index].task_state == TASK_BLOCKED_STATE) &&
+ 8000722:	429a      	cmp	r2, r3
+ 8000724:	d115      	bne.n	8000752 <kernel_unblock_tasks+0x96>
+		{
+				user_tcbs[block_index].task_state = TASK_READY_STATE;
+ 8000726:	883a      	ldrh	r2, [r7, #0]
+ 8000728:	4910      	ldr	r1, [pc, #64]	; (800076c <kernel_unblock_tasks+0xb0>)
+ 800072a:	4613      	mov	r3, r2
+ 800072c:	005b      	lsls	r3, r3, #1
+ 800072e:	4413      	add	r3, r2
+ 8000730:	009b      	lsls	r3, r3, #2
+ 8000732:	440b      	add	r3, r1
+ 8000734:	3308      	adds	r3, #8
+ 8000736:	2200      	movs	r2, #0
+ 8000738:	701a      	strb	r2, [r3, #0]
+				block_status &=~ bit_holder;
+ 800073a:	f9b7 3002 	ldrsh.w	r3, [r7, #2]
+ 800073e:	43db      	mvns	r3, r3
+ 8000740:	b21a      	sxth	r2, r3
+ 8000742:	4b09      	ldr	r3, [pc, #36]	; (8000768 <kernel_unblock_tasks+0xac>)
+ 8000744:	881b      	ldrh	r3, [r3, #0]
+ 8000746:	b21b      	sxth	r3, r3
+ 8000748:	4013      	ands	r3, r2
+ 800074a:	b21b      	sxth	r3, r3
+ 800074c:	b29a      	uxth	r2, r3
+ 800074e:	4b06      	ldr	r3, [pc, #24]	; (8000768 <kernel_unblock_tasks+0xac>)
+ 8000750:	801a      	strh	r2, [r3, #0]
+		}
+
+		status_copy = temp;
+ 8000752:	88bb      	ldrh	r3, [r7, #4]
+ 8000754:	80fb      	strh	r3, [r7, #6]
+	while (status_copy != 0)
+ 8000756:	88fb      	ldrh	r3, [r7, #6]
+ 8000758:	2b00      	cmp	r3, #0
+ 800075a:	d1b9      	bne.n	80006d0 <kernel_unblock_tasks+0x14>
+ 800075c:	e000      	b.n	8000760 <kernel_unblock_tasks+0xa4>
+		return;
+ 800075e:	bf00      	nop
+	}
+}
+ 8000760:	3708      	adds	r7, #8
+ 8000762:	46bd      	mov	sp, r7
+ 8000764:	bd80      	pop	{r7, pc}
+ 8000766:	bf00      	nop
+ 8000768:	2000017c 	.word	0x2000017c
+ 800076c:	2000007c 	.word	0x2000007c
+ 8000770:	20000030 	.word	0x20000030
+
+08000774 <kernel_block_low_priority_tasks>:
+
+local void kernel_block_low_priority_tasks(void)
+{
+ 8000774:	b480      	push	{r7}
+ 8000776:	b083      	sub	sp, #12
+ 8000778:	af00      	add	r7, sp, #0
+	uint16 tcb_index;
+	for(tcb_index  = 0; tcb_index < (num_tasks - 1); tcb_index ++)
+ 800077a:	2300      	movs	r3, #0
+ 800077c:	80fb      	strh	r3, [r7, #6]
+ 800077e:	e03c      	b.n	80007fa <kernel_block_low_priority_tasks+0x86>
+	{
+		if(user_tcbs[tcb_index].task_priority < highest_prio)
+ 8000780:	88fa      	ldrh	r2, [r7, #6]
+ 8000782:	4924      	ldr	r1, [pc, #144]	; (8000814 <kernel_block_low_priority_tasks+0xa0>)
+ 8000784:	4613      	mov	r3, r2
+ 8000786:	005b      	lsls	r3, r3, #1
+ 8000788:	4413      	add	r3, r2
+ 800078a:	009b      	lsls	r3, r3, #2
+ 800078c:	440b      	add	r3, r1
+ 800078e:	3309      	adds	r3, #9
+ 8000790:	781a      	ldrb	r2, [r3, #0]
+ 8000792:	4b21      	ldr	r3, [pc, #132]	; (8000818 <kernel_block_low_priority_tasks+0xa4>)
+ 8000794:	781b      	ldrb	r3, [r3, #0]
+ 8000796:	429a      	cmp	r2, r3
+ 8000798:	d215      	bcs.n	80007c6 <kernel_block_low_priority_tasks+0x52>
+		{
+			user_tcbs[tcb_index].task_state = TASK_PRIORITY_BLOCKED_STATE;
+ 800079a:	88fa      	ldrh	r2, [r7, #6]
+ 800079c:	491d      	ldr	r1, [pc, #116]	; (8000814 <kernel_block_low_priority_tasks+0xa0>)
+ 800079e:	4613      	mov	r3, r2
+ 80007a0:	005b      	lsls	r3, r3, #1
+ 80007a2:	4413      	add	r3, r2
+ 80007a4:	009b      	lsls	r3, r3, #2
+ 80007a6:	440b      	add	r3, r1
+ 80007a8:	3308      	adds	r3, #8
+ 80007aa:	2202      	movs	r2, #2
+ 80007ac:	701a      	strb	r2, [r3, #0]
+			block_status |= (1u << tcb_index);
+ 80007ae:	88fb      	ldrh	r3, [r7, #6]
+ 80007b0:	2201      	movs	r2, #1
+ 80007b2:	fa02 f303 	lsl.w	r3, r2, r3
+ 80007b6:	b29a      	uxth	r2, r3
+ 80007b8:	4b18      	ldr	r3, [pc, #96]	; (800081c <kernel_block_low_priority_tasks+0xa8>)
+ 80007ba:	881b      	ldrh	r3, [r3, #0]
+ 80007bc:	4313      	orrs	r3, r2
+ 80007be:	b29a      	uxth	r2, r3
+ 80007c0:	4b16      	ldr	r3, [pc, #88]	; (800081c <kernel_block_low_priority_tasks+0xa8>)
+ 80007c2:	801a      	strh	r2, [r3, #0]
+ 80007c4:	e016      	b.n	80007f4 <kernel_block_low_priority_tasks+0x80>
+		}
+		else
+		{
+			user_tcbs[tcb_index].task_state = TASK_READY_STATE;
+ 80007c6:	88fa      	ldrh	r2, [r7, #6]
+ 80007c8:	4912      	ldr	r1, [pc, #72]	; (8000814 <kernel_block_low_priority_tasks+0xa0>)
+ 80007ca:	4613      	mov	r3, r2
+ 80007cc:	005b      	lsls	r3, r3, #1
+ 80007ce:	4413      	add	r3, r2
+ 80007d0:	009b      	lsls	r3, r3, #2
+ 80007d2:	440b      	add	r3, r1
+ 80007d4:	3308      	adds	r3, #8
+ 80007d6:	2200      	movs	r2, #0
+ 80007d8:	701a      	strb	r2, [r3, #0]
+			block_status &=~ (1u << tcb_index);
+ 80007da:	88fb      	ldrh	r3, [r7, #6]
+ 80007dc:	2201      	movs	r2, #1
+ 80007de:	fa02 f303 	lsl.w	r3, r2, r3
+ 80007e2:	b29b      	uxth	r3, r3
+ 80007e4:	43db      	mvns	r3, r3
+ 80007e6:	b29a      	uxth	r2, r3
+ 80007e8:	4b0c      	ldr	r3, [pc, #48]	; (800081c <kernel_block_low_priority_tasks+0xa8>)
+ 80007ea:	881b      	ldrh	r3, [r3, #0]
+ 80007ec:	4013      	ands	r3, r2
+ 80007ee:	b29a      	uxth	r2, r3
+ 80007f0:	4b0a      	ldr	r3, [pc, #40]	; (800081c <kernel_block_low_priority_tasks+0xa8>)
+ 80007f2:	801a      	strh	r2, [r3, #0]
+	for(tcb_index  = 0; tcb_index < (num_tasks - 1); tcb_index ++)
+ 80007f4:	88fb      	ldrh	r3, [r7, #6]
+ 80007f6:	3301      	adds	r3, #1
+ 80007f8:	80fb      	strh	r3, [r7, #6]
+ 80007fa:	88fa      	ldrh	r2, [r7, #6]
+ 80007fc:	4b08      	ldr	r3, [pc, #32]	; (8000820 <kernel_block_low_priority_tasks+0xac>)
+ 80007fe:	881b      	ldrh	r3, [r3, #0]
+ 8000800:	3b01      	subs	r3, #1
+ 8000802:	429a      	cmp	r2, r3
+ 8000804:	dbbc      	blt.n	8000780 <kernel_block_low_priority_tasks+0xc>
+		}
+	}
+}
+ 8000806:	bf00      	nop
+ 8000808:	370c      	adds	r7, #12
+ 800080a:	46bd      	mov	sp, r7
+ 800080c:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000810:	4770      	bx	lr
+ 8000812:	bf00      	nop
+ 8000814:	2000007c 	.word	0x2000007c
+ 8000818:	2000002c 	.word	0x2000002c
+ 800081c:	2000017c 	.word	0x2000017c
+ 8000820:	2000016a 	.word	0x2000016a
+
+08000824 <kernel_create_idle_task>:
+// Called in kernel_scheduler_launch to pend the system-provided idle tasks to the user task control block array
+// before the the scheduler kicks off the first task
+//
+
+local void kernel_create_idle_task (void)
+{
+ 8000824:	b580      	push	{r7, lr}
+ 8000826:	af00      	add	r7, sp, #0
+	task_create(&idle_task, &kernel_idle_thread, STACK_SIZE_16, TASK_PRIO_0);
+ 8000828:	2300      	movs	r3, #0
+ 800082a:	2210      	movs	r2, #16
+ 800082c:	4902      	ldr	r1, [pc, #8]	; (8000838 <kernel_create_idle_task+0x14>)
+ 800082e:	4803      	ldr	r0, [pc, #12]	; (800083c <kernel_create_idle_task+0x18>)
+ 8000830:	f000 f89e 	bl	8000970 <task_create>
+}
+ 8000834:	bf00      	nop
+ 8000836:	bd80      	pop	{r7, pc}
+ 8000838:	080004c5 	.word	0x080004c5
+ 800083c:	20000170 	.word	0x20000170
+
+08000840 <kernel_get_first_psp_val_in_pp>:
+
+//
+// Called by the SVC handler in priority-based preemptive scheduling
+//
+local uint32* kernel_get_first_psp_val_in_pp (void)
+{
+ 8000840:	b480      	push	{r7}
+ 8000842:	b083      	sub	sp, #12
+ 8000844:	af00      	add	r7, sp, #0
+	uint16 index;
+	for (index = 0 ; index < num_tasks ; index++)
+ 8000846:	2300      	movs	r3, #0
+ 8000848:	80fb      	strh	r3, [r7, #6]
+ 800084a:	e01b      	b.n	8000884 <kernel_get_first_psp_val_in_pp+0x44>
+	{
+		if(user_tcbs[index].task_priority== highest_prio)
+ 800084c:	88fa      	ldrh	r2, [r7, #6]
+ 800084e:	4913      	ldr	r1, [pc, #76]	; (800089c <kernel_get_first_psp_val_in_pp+0x5c>)
+ 8000850:	4613      	mov	r3, r2
+ 8000852:	005b      	lsls	r3, r3, #1
+ 8000854:	4413      	add	r3, r2
+ 8000856:	009b      	lsls	r3, r3, #2
+ 8000858:	440b      	add	r3, r1
+ 800085a:	3309      	adds	r3, #9
+ 800085c:	781a      	ldrb	r2, [r3, #0]
+ 800085e:	4b10      	ldr	r3, [pc, #64]	; (80008a0 <kernel_get_first_psp_val_in_pp+0x60>)
+ 8000860:	781b      	ldrb	r3, [r3, #0]
+ 8000862:	429a      	cmp	r2, r3
+ 8000864:	d10b      	bne.n	800087e <kernel_get_first_psp_val_in_pp+0x3e>
+		{
+			current_task = index;
+ 8000866:	88fb      	ldrh	r3, [r7, #6]
+ 8000868:	4a0e      	ldr	r2, [pc, #56]	; (80008a4 <kernel_get_first_psp_val_in_pp+0x64>)
+ 800086a:	6013      	str	r3, [r2, #0]
+			return user_tcbs[index].task_psp_val;
+ 800086c:	88fa      	ldrh	r2, [r7, #6]
+ 800086e:	490b      	ldr	r1, [pc, #44]	; (800089c <kernel_get_first_psp_val_in_pp+0x5c>)
+ 8000870:	4613      	mov	r3, r2
+ 8000872:	005b      	lsls	r3, r3, #1
+ 8000874:	4413      	add	r3, r2
+ 8000876:	009b      	lsls	r3, r3, #2
+ 8000878:	440b      	add	r3, r1
+ 800087a:	681b      	ldr	r3, [r3, #0]
+ 800087c:	e007      	b.n	800088e <kernel_get_first_psp_val_in_pp+0x4e>
+	for (index = 0 ; index < num_tasks ; index++)
+ 800087e:	88fb      	ldrh	r3, [r7, #6]
+ 8000880:	3301      	adds	r3, #1
+ 8000882:	80fb      	strh	r3, [r7, #6]
+ 8000884:	4b08      	ldr	r3, [pc, #32]	; (80008a8 <kernel_get_first_psp_val_in_pp+0x68>)
+ 8000886:	881b      	ldrh	r3, [r3, #0]
+ 8000888:	88fa      	ldrh	r2, [r7, #6]
+ 800088a:	429a      	cmp	r2, r3
+ 800088c:	d3de      	bcc.n	800084c <kernel_get_first_psp_val_in_pp+0xc>
+		}
+	}
+}
+ 800088e:	4618      	mov	r0, r3
+ 8000890:	370c      	adds	r7, #12
+ 8000892:	46bd      	mov	sp, r7
+ 8000894:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000898:	4770      	bx	lr
+ 800089a:	bf00      	nop
+ 800089c:	2000007c 	.word	0x2000007c
+ 80008a0:	2000002c 	.word	0x2000002c
+ 80008a4:	20000178 	.word	0x20000178
+ 80008a8:	2000016a 	.word	0x2000016a
+
+080008ac <kernel_scheduler_init>:
+//------------------------------------------------------------------
+
+global asfunc void kernel_scheduler_init (uint32* kernel_stack_start)
+{
+	//initialize main stack pointer with the start of kernel stack as specified by the user
+	__asm volatile ("MSR MSP, R0");
+ 80008ac:	f380 8808 	msr	MSP, r0
+
+	//initialize all the required package variables
+	__asm volatile ("PUSH  {LR}");
+ 80008b0:	b500      	push	{lr}
+	__asm volatile ("BL  kernel_init_global_ticks_and_current_task");
+ 80008b2:	f7ff fe0b 	bl	80004cc <kernel_init_global_ticks_and_current_task>
+	__asm volatile ("POP  {LR}");
+ 80008b6:	f85d eb04 	ldr.w	lr, [sp], #4
+
+	__asm volatile ("BX LR");
+ 80008ba:	4770      	bx	lr
+}
+ 80008bc:	bf00      	nop
+
+080008be <kernel_scheduler_launch>:
+
+global asfunc void kernel_scheduler_launch (void)
+{
+
+	// first disable interrupts
+	__asm volatile ("CPSID i" : : : "memory");
+ 80008be:	b672      	cpsid	i
+
+	//create an idle task
+	__asm volatile("PUSH {LR}");
+ 80008c0:	b500      	push	{lr}
+	__asm volatile("BL kernel_create_idle_task");
+ 80008c2:	f7ff ffaf 	bl	8000824 <kernel_create_idle_task>
+	__asm volatile("POP {LR}");
+ 80008c6:	f85d eb04 	ldr.w	lr, [sp], #4
+
+	//get the next psp
+    __asm volatile("PUSH {LR}");
+ 80008ca:	b500      	push	{lr}
+    __asm volatile("BL kernel_get_psp_val");
+ 80008cc:	f7ff fe3c 	bl	8000548 <kernel_get_psp_val>
+    __asm volatile("POP {LR}");
+ 80008d0:	f85d eb04 	ldr.w	lr, [sp], #4
+
+    //let processor enter thumb state to allow for multi-threading
+    __asm volatile("MSR PSP, R0");
+ 80008d4:	f380 8809 	msr	PSP, r0
+    __asm volatile("MOV R0, #0x02");
+ 80008d8:	f04f 0002 	mov.w	r0, #2
+    __asm volatile("MSR CONTROL, R0");
+ 80008dc:	f380 8814 	msr	CONTROL, r0
+
+    //initialize systick
+    __asm volatile("PUSH {LR}");
+ 80008e0:	b500      	push	{lr}
+    __asm volatile("BL kernel_systick_init");
+ 80008e2:	f7ff fe13 	bl	800050c <kernel_systick_init>
+    __asm volatile("POP  {LR}");
+ 80008e6:	f85d eb04 	ldr.w	lr, [sp], #4
+
+    //enable interrupts
+    __asm volatile ("CPSIE i" : : : "memory");
+ 80008ea:	b662      	cpsie	i
+
+    //use the SVC handler to kick off the first task
+    __asm volatile("SVC #4");
+ 80008ec:	df04      	svc	4
+
+    __asm volatile("BX LR");
+ 80008ee:	4770      	bx	lr
+}
+ 80008f0:	bf00      	nop
+
+080008f2 <PendSV_Handler>:
+//------------------------------------------------------------------
+package asfunc void PendSV_Handler (void)
+{
+
+	//save context of current task
+    __asm volatile("MRS R0, PSP");
+ 80008f2:	f3ef 8009 	mrs	r0, PSP
+    __asm volatile("STMDB R0!, {R4-R11}");
+ 80008f6:	e920 0ff0 	stmdb	r0!, {r4, r5, r6, r7, r8, r9, sl, fp}
+    __asm volatile("PUSH {LR}");
+ 80008fa:	b500      	push	{lr}
+    __asm volatile("BL kernel_save_psp_value");
+ 80008fc:	f7ff fe4c 	bl	8000598 <kernel_save_psp_value>
+
+
+    //get into next task
+    __asm volatile("BL kernel_update_next_task");
+ 8000900:	f7ff fe76 	bl	80005f0 <kernel_update_next_task>
+    __asm volatile("BL kernel_get_psp_val");
+ 8000904:	f7ff fe20 	bl	8000548 <kernel_get_psp_val>
+    __asm volatile("LDMIA R0!, {R4-R11}");
+ 8000908:	e8b0 0ff0 	ldmia.w	r0!, {r4, r5, r6, r7, r8, r9, sl, fp}
+    __asm volatile("MSR PSP, R0");
+ 800090c:	f380 8809 	msr	PSP, r0
+
+    //return
+    __asm volatile("POP {LR}");
+ 8000910:	f85d eb04 	ldr.w	lr, [sp], #4
+    __asm volatile("BX LR");
+ 8000914:	4770      	bx	lr
+}
+ 8000916:	bf00      	nop
+
+08000918 <SysTick_Handler>:
+
+
+package void SysTick_Handler (void)
+{
+ 8000918:	b580      	push	{r7, lr}
+ 800091a:	af00      	add	r7, sp, #0
+		sysctrl_regs->sysctrl_reg_icsr |= SYSCTRL_ICSR_PENDSVSET;
+	}
+#endif
+
+#if SCHEDULER_TYPE == SCHEDULER_TYPE_PP
+	kernel_update_global_tick();
+ 800091c:	f7ff fec0 	bl	80006a0 <kernel_update_global_tick>
+	kernel_unblock_tasks();
+ 8000920:	f7ff fecc 	bl	80006bc <kernel_unblock_tasks>
+
+	if(hi_prio_set == true)
+ 8000924:	4b08      	ldr	r3, [pc, #32]	; (8000948 <SysTick_Handler+0x30>)
+ 8000926:	781b      	ldrb	r3, [r3, #0]
+ 8000928:	2b01      	cmp	r3, #1
+ 800092a:	d104      	bne.n	8000936 <SysTick_Handler+0x1e>
+	{
+		kernel_block_low_priority_tasks();
+ 800092c:	f7ff ff22 	bl	8000774 <kernel_block_low_priority_tasks>
+		hi_prio_set = false;
+ 8000930:	4b05      	ldr	r3, [pc, #20]	; (8000948 <SysTick_Handler+0x30>)
+ 8000932:	2200      	movs	r2, #0
+ 8000934:	701a      	strb	r2, [r3, #0]
+	}
+
+	//generate a PendSV exception to perform context-switch
+	sysctrl_regs->sysctrl_reg_icsr |= SYSCTRL_ICSR_PENDSVSET;
+ 8000936:	4b05      	ldr	r3, [pc, #20]	; (800094c <SysTick_Handler+0x34>)
+ 8000938:	685b      	ldr	r3, [r3, #4]
+ 800093a:	4a04      	ldr	r2, [pc, #16]	; (800094c <SysTick_Handler+0x34>)
+ 800093c:	f043 5380 	orr.w	r3, r3, #268435456	; 0x10000000
+ 8000940:	6053      	str	r3, [r2, #4]
+#endif
+
+}
+ 8000942:	bf00      	nop
+ 8000944:	bd80      	pop	{r7, pc}
+ 8000946:	bf00      	nop
+ 8000948:	2000016c 	.word	0x2000016c
+ 800094c:	e000ed00 	.word	0xe000ed00
+
+08000950 <SVC_Handler>:
+	__asm volatile("BX LR");
+#endif
+
+#if SCHEDULER_TYPE==SCHEDULER_TYPE_PP
+	// prepare the context of the first high-priority task and switch-in
+	__asm volatile("PUSH {LR}");
+ 8000950:	b500      	push	{lr}
+	__asm volatile("BL kernel_get_first_psp_val_in_pp");
+ 8000952:	f7ff ff75 	bl	8000840 <kernel_get_first_psp_val_in_pp>
+	__asm volatile("LDMIA R0!, {R4-R11}");
+ 8000956:	e8b0 0ff0 	ldmia.w	r0!, {r4, r5, r6, r7, r8, r9, sl, fp}
+	__asm volatile("MSR PSP, R0");
+ 800095a:	f380 8809 	msr	PSP, r0
+	__asm volatile("POP {LR}");
+ 800095e:	f85d eb04 	ldr.w	lr, [sp], #4
+
+	__asm volatile ("PUSH {LR}");
+ 8000962:	b500      	push	{lr}
+	__asm volatile ("BL kernel_block_low_priority_tasks");
+ 8000964:	f7ff ff06 	bl	8000774 <kernel_block_low_priority_tasks>
+	__asm volatile ("POP {LR}");
+ 8000968:	f85d eb04 	ldr.w	lr, [sp], #4
+
+
+	__asm volatile("BX LR");
+ 800096c:	4770      	bx	lr
+#endif
+
+}
+ 800096e:	bf00      	nop
+
+08000970 <task_create>:
+// allocates a specified size of memory to the task
+// sets the priority of the task used in priority-based preemptive scheduling
+//
+global void task_create (task_handle* handle, void (*task_handler)(void),
+		uint16 stack_size, uint8 prio)
+{
+ 8000970:	b480      	push	{r7}
+ 8000972:	b087      	sub	sp, #28
+ 8000974:	af00      	add	r7, sp, #0
+ 8000976:	60f8      	str	r0, [r7, #12]
+ 8000978:	60b9      	str	r1, [r7, #8]
+ 800097a:	4611      	mov	r1, r2
+ 800097c:	461a      	mov	r2, r3
+ 800097e:	460b      	mov	r3, r1
+ 8000980:	80fb      	strh	r3, [r7, #6]
+ 8000982:	4613      	mov	r3, r2
+ 8000984:	717b      	strb	r3, [r7, #5]
+
+	uint8 j = 0;
+ 8000986:	2300      	movs	r3, #0
+ 8000988:	75fb      	strb	r3, [r7, #23]
+	uint32* pointer = next_stack_start;
+ 800098a:	4b37      	ldr	r3, [pc, #220]	; (8000a68 <task_create+0xf8>)
+ 800098c:	681b      	ldr	r3, [r3, #0]
+ 800098e:	613b      	str	r3, [r7, #16]
+
+	handle->task_handler = task_handler;
+ 8000990:	68fb      	ldr	r3, [r7, #12]
+ 8000992:	68ba      	ldr	r2, [r7, #8]
+ 8000994:	601a      	str	r2, [r3, #0]
+ 	handle->tcb_index = index_to_assign;
+ 8000996:	4b35      	ldr	r3, [pc, #212]	; (8000a6c <task_create+0xfc>)
+ 8000998:	881a      	ldrh	r2, [r3, #0]
+ 800099a:	68fb      	ldr	r3, [r7, #12]
+ 800099c:	809a      	strh	r2, [r3, #4]
+
+	user_tcbs[index_to_assign].task_state = TASK_READY_STATE;
+ 800099e:	4b33      	ldr	r3, [pc, #204]	; (8000a6c <task_create+0xfc>)
+ 80009a0:	881b      	ldrh	r3, [r3, #0]
+ 80009a2:	4619      	mov	r1, r3
+ 80009a4:	4a32      	ldr	r2, [pc, #200]	; (8000a70 <task_create+0x100>)
+ 80009a6:	460b      	mov	r3, r1
+ 80009a8:	005b      	lsls	r3, r3, #1
+ 80009aa:	440b      	add	r3, r1
+ 80009ac:	009b      	lsls	r3, r3, #2
+ 80009ae:	4413      	add	r3, r2
+ 80009b0:	3308      	adds	r3, #8
+ 80009b2:	2200      	movs	r2, #0
+ 80009b4:	701a      	strb	r2, [r3, #0]
+	user_tcbs[index_to_assign].task_priority = prio;
+ 80009b6:	4b2d      	ldr	r3, [pc, #180]	; (8000a6c <task_create+0xfc>)
+ 80009b8:	881b      	ldrh	r3, [r3, #0]
+ 80009ba:	4619      	mov	r1, r3
+ 80009bc:	4a2c      	ldr	r2, [pc, #176]	; (8000a70 <task_create+0x100>)
+ 80009be:	460b      	mov	r3, r1
+ 80009c0:	005b      	lsls	r3, r3, #1
+ 80009c2:	440b      	add	r3, r1
+ 80009c4:	009b      	lsls	r3, r3, #2
+ 80009c6:	4413      	add	r3, r2
+ 80009c8:	3309      	adds	r3, #9
+ 80009ca:	797a      	ldrb	r2, [r7, #5]
+ 80009cc:	701a      	strb	r2, [r3, #0]
+
+
+	pointer -- ;
+ 80009ce:	693b      	ldr	r3, [r7, #16]
+ 80009d0:	3b04      	subs	r3, #4
+ 80009d2:	613b      	str	r3, [r7, #16]
+	*pointer = 0x01000000;
+ 80009d4:	693b      	ldr	r3, [r7, #16]
+ 80009d6:	f04f 7280 	mov.w	r2, #16777216	; 0x1000000
+ 80009da:	601a      	str	r2, [r3, #0]
+
+	pointer -- ;
+ 80009dc:	693b      	ldr	r3, [r7, #16]
+ 80009de:	3b04      	subs	r3, #4
+ 80009e0:	613b      	str	r3, [r7, #16]
+	*pointer = (uint32)task_handler;
+ 80009e2:	68ba      	ldr	r2, [r7, #8]
+ 80009e4:	693b      	ldr	r3, [r7, #16]
+ 80009e6:	601a      	str	r2, [r3, #0]
+
+	pointer -- ;
+ 80009e8:	693b      	ldr	r3, [r7, #16]
+ 80009ea:	3b04      	subs	r3, #4
+ 80009ec:	613b      	str	r3, [r7, #16]
+	*pointer = 0xfffffffd;
+ 80009ee:	693b      	ldr	r3, [r7, #16]
+ 80009f0:	f06f 0202 	mvn.w	r2, #2
+ 80009f4:	601a      	str	r2, [r3, #0]
+
+	for (; j < 13; j++)
+ 80009f6:	e008      	b.n	8000a0a <task_create+0x9a>
+	{
+		pointer -- ;
+ 80009f8:	693b      	ldr	r3, [r7, #16]
+ 80009fa:	3b04      	subs	r3, #4
+ 80009fc:	613b      	str	r3, [r7, #16]
+		*pointer = 0x0;
+ 80009fe:	693b      	ldr	r3, [r7, #16]
+ 8000a00:	2200      	movs	r2, #0
+ 8000a02:	601a      	str	r2, [r3, #0]
+	for (; j < 13; j++)
+ 8000a04:	7dfb      	ldrb	r3, [r7, #23]
+ 8000a06:	3301      	adds	r3, #1
+ 8000a08:	75fb      	strb	r3, [r7, #23]
+ 8000a0a:	7dfb      	ldrb	r3, [r7, #23]
+ 8000a0c:	2b0c      	cmp	r3, #12
+ 8000a0e:	d9f3      	bls.n	80009f8 <task_create+0x88>
+	}
+
+	user_tcbs[index_to_assign].task_psp_val = pointer;
+ 8000a10:	4b16      	ldr	r3, [pc, #88]	; (8000a6c <task_create+0xfc>)
+ 8000a12:	881b      	ldrh	r3, [r3, #0]
+ 8000a14:	4619      	mov	r1, r3
+ 8000a16:	4a16      	ldr	r2, [pc, #88]	; (8000a70 <task_create+0x100>)
+ 8000a18:	460b      	mov	r3, r1
+ 8000a1a:	005b      	lsls	r3, r3, #1
+ 8000a1c:	440b      	add	r3, r1
+ 8000a1e:	009b      	lsls	r3, r3, #2
+ 8000a20:	4413      	add	r3, r2
+ 8000a22:	693a      	ldr	r2, [r7, #16]
+ 8000a24:	601a      	str	r2, [r3, #0]
+
+	index_to_assign++;
+ 8000a26:	4b11      	ldr	r3, [pc, #68]	; (8000a6c <task_create+0xfc>)
+ 8000a28:	881b      	ldrh	r3, [r3, #0]
+ 8000a2a:	3301      	adds	r3, #1
+ 8000a2c:	b29a      	uxth	r2, r3
+ 8000a2e:	4b0f      	ldr	r3, [pc, #60]	; (8000a6c <task_create+0xfc>)
+ 8000a30:	801a      	strh	r2, [r3, #0]
+	num_tasks = index_to_assign;
+ 8000a32:	4b0e      	ldr	r3, [pc, #56]	; (8000a6c <task_create+0xfc>)
+ 8000a34:	881a      	ldrh	r2, [r3, #0]
+ 8000a36:	4b0f      	ldr	r3, [pc, #60]	; (8000a74 <task_create+0x104>)
+ 8000a38:	801a      	strh	r2, [r3, #0]
+
+	if(prio > highest_prio)
+ 8000a3a:	4b0f      	ldr	r3, [pc, #60]	; (8000a78 <task_create+0x108>)
+ 8000a3c:	781b      	ldrb	r3, [r3, #0]
+ 8000a3e:	797a      	ldrb	r2, [r7, #5]
+ 8000a40:	429a      	cmp	r2, r3
+ 8000a42:	d902      	bls.n	8000a4a <task_create+0xda>
+	{
+		highest_prio = prio;
+ 8000a44:	4a0c      	ldr	r2, [pc, #48]	; (8000a78 <task_create+0x108>)
+ 8000a46:	797b      	ldrb	r3, [r7, #5]
+ 8000a48:	7013      	strb	r3, [r2, #0]
+	}
+
+	next_stack_start -= (16 + stack_size);
+ 8000a4a:	4b07      	ldr	r3, [pc, #28]	; (8000a68 <task_create+0xf8>)
+ 8000a4c:	681a      	ldr	r2, [r3, #0]
+ 8000a4e:	88fb      	ldrh	r3, [r7, #6]
+ 8000a50:	3310      	adds	r3, #16
+ 8000a52:	009b      	lsls	r3, r3, #2
+ 8000a54:	425b      	negs	r3, r3
+ 8000a56:	4413      	add	r3, r2
+ 8000a58:	4a03      	ldr	r2, [pc, #12]	; (8000a68 <task_create+0xf8>)
+ 8000a5a:	6013      	str	r3, [r2, #0]
+
+}
+ 8000a5c:	bf00      	nop
+ 8000a5e:	371c      	adds	r7, #28
+ 8000a60:	46bd      	mov	sp, r7
+ 8000a62:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000a66:	4770      	bx	lr
+ 8000a68:	20000000 	.word	0x20000000
+ 8000a6c:	20000028 	.word	0x20000028
+ 8000a70:	2000007c 	.word	0x2000007c
+ 8000a74:	2000016a 	.word	0x2000016a
+ 8000a78:	2000002c 	.word	0x2000002c
+
+08000a7c <task_delay>:
+
+//
+// Blocks a task from taking the CPU for a certain number of ticks
+//
+global void task_delay(task_handle* handle, uint16 tick_num)
+{
+ 8000a7c:	b480      	push	{r7}
+ 8000a7e:	b085      	sub	sp, #20
+ 8000a80:	af00      	add	r7, sp, #0
+ 8000a82:	6078      	str	r0, [r7, #4]
+ 8000a84:	460b      	mov	r3, r1
+ 8000a86:	807b      	strh	r3, [r7, #2]
+	uint16	tcb_index;
+
+	if(handle == NULL)
+ 8000a88:	687b      	ldr	r3, [r7, #4]
+ 8000a8a:	2b00      	cmp	r3, #0
+ 8000a8c:	d103      	bne.n	8000a96 <task_delay+0x1a>
+		tcb_index = current_task;
+ 8000a8e:	4b1b      	ldr	r3, [pc, #108]	; (8000afc <task_delay+0x80>)
+ 8000a90:	681b      	ldr	r3, [r3, #0]
+ 8000a92:	81fb      	strh	r3, [r7, #14]
+ 8000a94:	e002      	b.n	8000a9c <task_delay+0x20>
+	else
+		tcb_index = handle->tcb_index;
+ 8000a96:	687b      	ldr	r3, [r7, #4]
+ 8000a98:	889b      	ldrh	r3, [r3, #4]
+ 8000a9a:	81fb      	strh	r3, [r7, #14]
+
+	user_tcbs[tcb_index].task_block_count = tick_num + global_ticks ;
+ 8000a9c:	8879      	ldrh	r1, [r7, #2]
+ 8000a9e:	4b18      	ldr	r3, [pc, #96]	; (8000b00 <task_delay+0x84>)
+ 8000aa0:	681b      	ldr	r3, [r3, #0]
+ 8000aa2:	89fa      	ldrh	r2, [r7, #14]
+ 8000aa4:	4419      	add	r1, r3
+ 8000aa6:	4817      	ldr	r0, [pc, #92]	; (8000b04 <task_delay+0x88>)
+ 8000aa8:	4613      	mov	r3, r2
+ 8000aaa:	005b      	lsls	r3, r3, #1
+ 8000aac:	4413      	add	r3, r2
+ 8000aae:	009b      	lsls	r3, r3, #2
+ 8000ab0:	4403      	add	r3, r0
+ 8000ab2:	3304      	adds	r3, #4
+ 8000ab4:	6019      	str	r1, [r3, #0]
+	user_tcbs[tcb_index].task_state = TASK_BLOCKED_STATE;
+ 8000ab6:	89fa      	ldrh	r2, [r7, #14]
+ 8000ab8:	4912      	ldr	r1, [pc, #72]	; (8000b04 <task_delay+0x88>)
+ 8000aba:	4613      	mov	r3, r2
+ 8000abc:	005b      	lsls	r3, r3, #1
+ 8000abe:	4413      	add	r3, r2
+ 8000ac0:	009b      	lsls	r3, r3, #2
+ 8000ac2:	440b      	add	r3, r1
+ 8000ac4:	3308      	adds	r3, #8
+ 8000ac6:	2201      	movs	r2, #1
+ 8000ac8:	701a      	strb	r2, [r3, #0]
+	block_status |= (1 << tcb_index);
+ 8000aca:	89fb      	ldrh	r3, [r7, #14]
+ 8000acc:	2201      	movs	r2, #1
+ 8000ace:	fa02 f303 	lsl.w	r3, r2, r3
+ 8000ad2:	b21a      	sxth	r2, r3
+ 8000ad4:	4b0c      	ldr	r3, [pc, #48]	; (8000b08 <task_delay+0x8c>)
+ 8000ad6:	881b      	ldrh	r3, [r3, #0]
+ 8000ad8:	b21b      	sxth	r3, r3
+ 8000ada:	4313      	orrs	r3, r2
+ 8000adc:	b21b      	sxth	r3, r3
+ 8000ade:	b29a      	uxth	r2, r3
+ 8000ae0:	4b09      	ldr	r3, [pc, #36]	; (8000b08 <task_delay+0x8c>)
+ 8000ae2:	801a      	strh	r2, [r3, #0]
+	sysctrl_regs->sysctrl_reg_icsr |= SYSCTRL_ICSR_PENDSVSET;
+ 8000ae4:	4b09      	ldr	r3, [pc, #36]	; (8000b0c <task_delay+0x90>)
+ 8000ae6:	685b      	ldr	r3, [r3, #4]
+ 8000ae8:	4a08      	ldr	r2, [pc, #32]	; (8000b0c <task_delay+0x90>)
+ 8000aea:	f043 5380 	orr.w	r3, r3, #268435456	; 0x10000000
+ 8000aee:	6053      	str	r3, [r2, #4]
+}
+ 8000af0:	bf00      	nop
+ 8000af2:	3714      	adds	r7, #20
+ 8000af4:	46bd      	mov	sp, r7
+ 8000af6:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000afa:	4770      	bx	lr
+ 8000afc:	20000178 	.word	0x20000178
+ 8000b00:	20000030 	.word	0x20000030
+ 8000b04:	2000007c 	.word	0x2000007c
+ 8000b08:	2000017c 	.word	0x2000017c
+ 8000b0c:	e000ed00 	.word	0xe000ed00
+
+08000b10 <task_set_priority>:
+	user_tcbs[tcb_index].task_state = TASK_READY_STATE;
+	block_status &=~ (1u << tcb_index);
+}
+
+global void task_set_priority (task_handle* handle, uint8 priority)
+{
+ 8000b10:	b480      	push	{r7}
+ 8000b12:	b085      	sub	sp, #20
+ 8000b14:	af00      	add	r7, sp, #0
+ 8000b16:	6078      	str	r0, [r7, #4]
+ 8000b18:	460b      	mov	r3, r1
+ 8000b1a:	70fb      	strb	r3, [r7, #3]
+	uint16 tcb_index = handle->tcb_index;
+ 8000b1c:	687b      	ldr	r3, [r7, #4]
+ 8000b1e:	889b      	ldrh	r3, [r3, #4]
+ 8000b20:	81fb      	strh	r3, [r7, #14]
+	user_tcbs[tcb_index].task_priority = priority;
+ 8000b22:	89fa      	ldrh	r2, [r7, #14]
+ 8000b24:	490c      	ldr	r1, [pc, #48]	; (8000b58 <task_set_priority+0x48>)
+ 8000b26:	4613      	mov	r3, r2
+ 8000b28:	005b      	lsls	r3, r3, #1
+ 8000b2a:	4413      	add	r3, r2
+ 8000b2c:	009b      	lsls	r3, r3, #2
+ 8000b2e:	440b      	add	r3, r1
+ 8000b30:	3309      	adds	r3, #9
+ 8000b32:	78fa      	ldrb	r2, [r7, #3]
+ 8000b34:	701a      	strb	r2, [r3, #0]
+	if(priority > highest_prio)
+ 8000b36:	4b09      	ldr	r3, [pc, #36]	; (8000b5c <task_set_priority+0x4c>)
+ 8000b38:	781b      	ldrb	r3, [r3, #0]
+ 8000b3a:	78fa      	ldrb	r2, [r7, #3]
+ 8000b3c:	429a      	cmp	r2, r3
+ 8000b3e:	d902      	bls.n	8000b46 <task_set_priority+0x36>
+	{
+		highest_prio = priority;
+ 8000b40:	4a06      	ldr	r2, [pc, #24]	; (8000b5c <task_set_priority+0x4c>)
+ 8000b42:	78fb      	ldrb	r3, [r7, #3]
+ 8000b44:	7013      	strb	r3, [r2, #0]
+	}
+	hi_prio_set = true;
+ 8000b46:	4b06      	ldr	r3, [pc, #24]	; (8000b60 <task_set_priority+0x50>)
+ 8000b48:	2201      	movs	r2, #1
+ 8000b4a:	701a      	strb	r2, [r3, #0]
+}
+ 8000b4c:	bf00      	nop
+ 8000b4e:	3714      	adds	r7, #20
+ 8000b50:	46bd      	mov	sp, r7
+ 8000b52:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000b56:	4770      	bx	lr
+ 8000b58:	2000007c 	.word	0x2000007c
+ 8000b5c:	2000002c 	.word	0x2000002c
+ 8000b60:	2000016c 	.word	0x2000016c
+
+08000b64 <__libc_init_array>:
+ 8000b64:	b570      	push	{r4, r5, r6, lr}
+ 8000b66:	4e0d      	ldr	r6, [pc, #52]	; (8000b9c <__libc_init_array+0x38>)
+ 8000b68:	4c0d      	ldr	r4, [pc, #52]	; (8000ba0 <__libc_init_array+0x3c>)
+ 8000b6a:	1ba4      	subs	r4, r4, r6
+ 8000b6c:	10a4      	asrs	r4, r4, #2
+ 8000b6e:	2500      	movs	r5, #0
+ 8000b70:	42a5      	cmp	r5, r4
+ 8000b72:	d109      	bne.n	8000b88 <__libc_init_array+0x24>
+ 8000b74:	4e0b      	ldr	r6, [pc, #44]	; (8000ba4 <__libc_init_array+0x40>)
+ 8000b76:	4c0c      	ldr	r4, [pc, #48]	; (8000ba8 <__libc_init_array+0x44>)
+ 8000b78:	f000 f818 	bl	8000bac <_init>
+ 8000b7c:	1ba4      	subs	r4, r4, r6
+ 8000b7e:	10a4      	asrs	r4, r4, #2
+ 8000b80:	2500      	movs	r5, #0
+ 8000b82:	42a5      	cmp	r5, r4
+ 8000b84:	d105      	bne.n	8000b92 <__libc_init_array+0x2e>
+ 8000b86:	bd70      	pop	{r4, r5, r6, pc}
+ 8000b88:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 8000b8c:	4798      	blx	r3
+ 8000b8e:	3501      	adds	r5, #1
+ 8000b90:	e7ee      	b.n	8000b70 <__libc_init_array+0xc>
+ 8000b92:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 8000b96:	4798      	blx	r3
+ 8000b98:	3501      	adds	r5, #1
+ 8000b9a:	e7f2      	b.n	8000b82 <__libc_init_array+0x1e>
+ 8000b9c:	08000c04 	.word	0x08000c04
+ 8000ba0:	08000c04 	.word	0x08000c04
+ 8000ba4:	08000c04 	.word	0x08000c04
+ 8000ba8:	08000c08 	.word	0x08000c08
+
+08000bac <_init>:
+ 8000bac:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000bae:	bf00      	nop
+ 8000bb0:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8000bb2:	bc08      	pop	{r3}
+ 8000bb4:	469e      	mov	lr, r3
+ 8000bb6:	4770      	bx	lr
+
+08000bb8 <_fini>:
+ 8000bb8:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8000bba:	bf00      	nop
+ 8000bbc:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 8000bbe:	bc08      	pop	{r3}
+ 8000bc0:	469e      	mov	lr, r3
+ 8000bc2:	4770      	bx	lr
